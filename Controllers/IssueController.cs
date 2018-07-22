@@ -42,7 +42,7 @@ namespace myApp.Controllers
                 command.Parameters.Add("@Problem_Date", SqlDbType.DateTime).Value = issueInfo.Problem_Date;
                 command.Parameters.Add("@Description", SqlDbType.VarChar).Value = issueInfo.Description;
                 command.Parameters.Add("@Location_Id", SqlDbType.Int).Value = issueInfo.Location_Id;
-                command.Parameters.Add("@Grade_Id", SqlDbType.Int).Value = issueInfo.Grade_Id;
+                command.Parameters.Add("@Grade_Id", SqlDbType.VarChar).Value = issueInfo.Grade_Id;
                 command.Parameters.Add("@Resp_Dept_Id", SqlDbType.Int).Value = issueInfo.Resp_Dept_Id;
                 command.Parameters.Add("@Request_Date", SqlDbType.DateTime).Value = issueInfo.Request_Date;
                 command.Parameters.Add("@Target_Date", SqlDbType.DateTime).Value = issueInfo.Target_Date;
