@@ -34,7 +34,7 @@ namespace myApp.Controllers
                     "Insert_Date, Insert_User_Id)" +
                     "VALUES (@Customer_Id, @Project_Id, @Partnumber_Id, @Problem_Date, @Description, @Location_Id, @Grade_Id," +
                     "@Resp_Dept_Id, @Request_Date, @Target_Date, @Qty_In_1_Month, @Qty_In_3_Month," +
-                    "GETDATE(), @Insert_User_Id, )";
+                    "GETDATE(), @Insert_User_Id )";
                 SqlCommand command = new SqlCommand(CommandText, myDbCon);
                 command.Parameters.Add("@Customer_Id", SqlDbType.Int).Value = issueInfo.Customer_Id;
                 command.Parameters.Add("@Project_Id", SqlDbType.Int).Value = issueInfo.Project_Id;
@@ -101,7 +101,7 @@ namespace myApp.Controllers
                     "Doc_Update=@Doc_Update, " +
                     "Doc_Update_Desc=@Doc_Update_Desc, " +
                     "Update_Date=GETDATE(), " +
-                    "Update_User_Id=@Update_User_Id)" +
+                    "Update_User_Id=@Update_User_Id" +
                     " WHERE Id = @Id";
                 SqlCommand command = new SqlCommand(CommandText, myDbCon);
                 command.Parameters.Add("@Id", SqlDbType.Int).Value = issueInfo.Id;
