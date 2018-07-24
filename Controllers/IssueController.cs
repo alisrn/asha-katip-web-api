@@ -102,8 +102,9 @@ namespace myApp.Controllers
                     "Doc_Update_Desc=@Doc_Update_Desc, " +
                     "Update_Date=GETDATE(), " +
                     "Update_User_Id=@Update_User_Id" +
-                    " WHERE Id = " + id;
+                    " WHERE Id = @Id";
                 SqlCommand command = new SqlCommand(CommandText, myDbCon);
+                command.Parameters.Add("@Id", SqlDbType.Int).Value = id;
                 command.Parameters.Add("@Customer_Id", SqlDbType.Int).Value = issueInfo.Customer_Id;
                 command.Parameters.Add("@Project_Id", SqlDbType.Int).Value = issueInfo.Project_Id;
                 command.Parameters.Add("@Partnumber_Id", SqlDbType.Int).Value = issueInfo.Partnumber_Id;
@@ -219,8 +220,10 @@ namespace myApp.Controllers
 
             try
             {
-                string CommandText = "SELECT * FROM QualityIssue WHERE Id = " + id;
+                string CommandText = "SELECT * FROM QualityIssue WHERE Id = @Id";
+
                 SqlCommand command = new SqlCommand(CommandText, myDbCon);
+                command.Parameters.Add("@Id", SqlDbType.Int).Value =id;
 
                 SqlDataReader reader = command.ExecuteReader();
 
