@@ -102,9 +102,8 @@ namespace myApp.Controllers
                     "Doc_Update_Desc=@Doc_Update_Desc, " +
                     "Update_Date=GETDATE(), " +
                     "Update_User_Id=@Update_User_Id" +
-                    " WHERE Id = @Id";
+                    " WHERE Id = " + id;
                 SqlCommand command = new SqlCommand(CommandText, myDbCon);
-                command.Parameters.Add("@Id", SqlDbType.Int).Value = issueInfo.Id;
                 command.Parameters.Add("@Customer_Id", SqlDbType.Int).Value = issueInfo.Customer_Id;
                 command.Parameters.Add("@Project_Id", SqlDbType.Int).Value = issueInfo.Project_Id;
                 command.Parameters.Add("@Partnumber_Id", SqlDbType.Int).Value = issueInfo.Partnumber_Id;
@@ -143,5 +142,129 @@ namespace myApp.Controllers
 
         }
 
+
+        // PUT api/issue/
+        [HttpGet()]
+        public string Get()
+        {
+            List<QualityIssueResult> resultList = new List<QualityIssueResult>();
+
+            SqlConnection myDbCon = new SqlConnection(DBConst.conStr);
+            myDbCon.Open();
+
+            try
+            {
+                string CommandText = "SELECT * FROM QualityIssue";
+                SqlCommand command = new SqlCommand(CommandText, myDbCon);
+
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    QualityIssueResult result = new QualityIssueResult();
+                    result.Id = Convert.ToInt32(reader["Id"]);
+                    result.Customer_Id = Convert.ToInt32(reader["Customer_Id"]);
+                    result.Project_Id = Convert.ToInt32(reader["Project_Id"]);
+                    result.Partnumber_Id = Convert.ToInt32(reader["Partnumber_Id"]);
+                    result.Problem_Date = Convert.ToDateTime(reader["Problem_Date"]);
+                    result.Description = (string)(reader["Description"]);
+                    result.Location_Id = Convert.ToInt32(reader["Location_Id"]);
+                    result.Grade_Id = (string)(reader["Grade_Id"]);
+                    result.Resp_Dept_Id = Convert.ToInt32(reader["Resp_Dept_Id"]);
+                    result.Request_Date = Convert.ToDateTime(reader["Request_Date"]);
+                    result.Target_Date = Convert.ToDateTime(reader["Target_Date"]);
+                    result.Qty_In_1_Month = Convert.ToInt32(reader["Qty_In_1_Month"]);
+                    result.Qty_In_3_Month = Convert.ToInt32(reader["Qty_In_3_Month"]);
+                    result.Receive_Date1 = Convert.ToDateTime(reader["Receive_Date1"]);
+                    result.Receive_Date2 = Convert.ToDateTime(reader["Receive_Date2"]);
+                    result.Receive_Date3 = Convert.ToDateTime(reader["Receive_Date3"]);
+                    result.Send_Date = Convert.ToDateTime(reader["Send_Date"]);
+                    result.Awaiting_Date = Convert.ToDateTime(reader["Awaiting_Date"]);
+                    result.Doc_Update = Convert.ToInt32(reader["Doc_Update"]);
+                    result.Doc_Update_Description = (string)(reader["Doc_Update_Desc"]);
+                    result.Insert_User_Id = Convert.ToInt32(reader["Insert_User_Id"]);
+                    result.Insert_Date = Convert.ToDateTime(reader["Insert_Date"]);
+                    result.Update_User_Id = Convert.ToInt32(reader["Update_User_Id"]);
+                    result.Update_Date = Convert.ToDateTime(reader["Update_Date"]);
+                    result.ok = true;
+                    result.message = "Data is successfully retrieved.";
+
+                    resultList.Add(result);
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                SignUpResult result = new SignUpResult();
+                result.ok = false;
+                result.message = ex.Message;
+                myDbCon.Close();
+                return JsonConvert.SerializeObject(result);
+            }
+
+            myDbCon.Close();
+
+            return JsonConvert.SerializeObject(resultList);
+
+        }
+
+        // PUT api/issue/id
+        [HttpGet("{id}")]
+        public string Get(int id)
+        {
+            QualityIssueResult result = new QualityIssueResult();
+
+            SqlConnection myDbCon = new SqlConnection(DBConst.conStr);
+            myDbCon.Open();
+
+            try
+            {
+                string CommandText = "SELECT * FROM QualityIssue WHERE Id = " + id;
+                SqlCommand command = new SqlCommand(CommandText, myDbCon);
+
+                SqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    result.Id = id;
+                    result.Customer_Id = Convert.ToInt32(reader["Customer_Id"]);
+                    result.Project_Id = Convert.ToInt32(reader["Project_Id"]);
+                    result.Partnumber_Id = Convert.ToInt32(reader["Partnumber_Id"]);
+                    result.Problem_Date = Convert.ToDateTime(reader["Problem_Date"]);
+                    result.Description = (string)(reader["Description"]);
+                    result.Location_Id = Convert.ToInt32(reader["Location_Id"]);
+                    result.Grade_Id = (string)(reader["Grade_Id"]);
+                    result.Resp_Dept_Id = Convert.ToInt32(reader["Resp_Dept_Id"]);
+                    result.Request_Date = Convert.ToDateTime(reader["Request_Date"]);
+                    result.Target_Date = Convert.ToDateTime(reader["Target_Date"]);
+                    result.Qty_In_1_Month = Convert.ToInt32(reader["Qty_In_1_Month"]);
+                    result.Qty_In_3_Month = Convert.ToInt32(reader["Qty_In_3_Month"]);
+                    result.Receive_Date1 = Convert.ToDateTime(reader["Receive_Date1"]);
+                    result.Receive_Date2 = Convert.ToDateTime(reader["Receive_Date2"]);
+                    result.Receive_Date3 = Convert.ToDateTime(reader["Receive_Date3"]);
+                    result.Send_Date = Convert.ToDateTime(reader["Send_Date"]);
+                    result.Awaiting_Date = Convert.ToDateTime(reader["Awaiting_Date"]);
+                    result.Doc_Update = Convert.ToInt32(reader["Doc_Update"]);
+                    result.Doc_Update_Description = (string)(reader["Doc_Update_Desc"]);
+                    result.Insert_User_Id = Convert.ToInt32(reader["Insert_User_Id"]);
+                    result.Insert_Date = Convert.ToDateTime(reader["Insert_Date"]);
+                    result.Update_User_Id = Convert.ToInt32(reader["Update_User_Id"]);
+                    result.Update_Date = Convert.ToDateTime(reader["Update_Date"]);
+                    result.ok = true;
+                    result.message = "Data is successfully retrieved.";
+
+                }
+            }
+            catch (Exception ex)
+            {
+                SignUpResult resultCatch = new SignUpResult();
+                resultCatch.ok = false;
+                resultCatch.message = ex.Message;
+                myDbCon.Close();
+                return JsonConvert.SerializeObject(resultCatch);
+            }
+            myDbCon.Close();
+            return JsonConvert.SerializeObject(result);
+        }
     }
 }
